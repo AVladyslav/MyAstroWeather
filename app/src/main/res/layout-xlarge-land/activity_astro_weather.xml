@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.anamariapaula.myastroweather.AstroWeather">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="265dp"
+        android:layout_marginTop="25dp"
+        android:text="Longitude:"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="40dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/latitude_view"
+        android:layout_alignBottom="@+id/latitude_view"
+        android:layout_alignStart="@+id/textView"
+        android:text="Latitude:"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="78dp" />
+
+    <TextView
+        android:id="@+id/longitude_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@+id/textView"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="37dp" />
+
+    <TextView
+        android:id="@+id/latitude_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/longitude_view"
+        android:layout_below="@+id/longitude_view"
+        android:layout_marginTop="26dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="78dp" />
+
+    <TextView
+        android:id="@+id/textClock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/longitude_view"
+        android:layout_alignBottom="@+id/longitude_view"
+        android:layout_alignParentEnd="true"
+        android:text="11:20:13"
+        android:textSize="30sp"
+        android:visibility="visible" />
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/fragment_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_below="@+id/textView2"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_marginTop="12dp"-->
+
+
+    <!--/>-->
+
+    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@+id/fragment_container_sun"-->
+        <!--android:layout_width="800dp"-->
+        <!--android:layout_height="275dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/textView2" />-->
+
+    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@+id/fragment_container_moon"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/fragment_container_sun"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignEnd="@+id/fragment_container_sun"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_basic"
+        android:layout_width="625dp"
+        android:layout_height="275dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_additional"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/fragment_container_basic"
+        android:layout_toStartOf="@+id/fragment_container_sun" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_forecast"
+        android:layout_width="625dp"
+        android:layout_height="275dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/fragment_container_basic" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_sun"
+        android:layout_width="475dp"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/fragment_container_basic"
+        android:layout_toStartOf="@+id/fragment_container_moon" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container_moon"
+        android:layout_width="475dp"
+        android:layout_height="300dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/fragment_container_forecast" />
+
+</RelativeLayout>

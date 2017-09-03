@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="qwerty">Keyboard</string>>
+    <string name="app_name">My AstroWeather</string>
+    <string name="action_settings">Astro Ustawienia</string>
+    <string name="action_weather_settings">Astro Pogoda</string>
+    <string name="action_localizations">Lokalizacja</string>
+    <string name="action_refresh">Odśwież!</string>
+    <string name="coordinates">Coordinates:</string>
+    <string name="sun">Słońce</string>
+    <string name="moon">Księżyc</string>
+
+    <string name="noWeatherInfo">Brak informacji o pogodzie!</string>
+    <string name="updateData">Zaktualizowano dane!</string>
+
+    <string name="sun.AzimuthRise">Wschód Azymut</string>
+    <string name="sun.AzimuthSet">Zachód Azymut</string>
+    <string name="sun.Sunrise">Wschód</string>
+    <string name="sun.Sunset">Zachód</string>
+    <string name="sun.TwilightMorning">Początek Zmierzchu</string>
+    <string name="sun.TwilightEvening">Koniec Zmierzchu</string>
+
+    <string name="moon.Age">Pełnia</string>
+    <string name="moon.Illumination">Światło</string>
+    <string name="moon.Moonrise">Wschód</string>
+    <string name="moon.Moonset">Zachód</string>
+    <string name="moon.NextFullMoon">Następna pełnia</string>
+    <string name="moon.NextNewMoon">Kolejny księżyc</string>
+
+    <string name="location.Latitude">Szerokość</string>
+    <string name="location.Longitude">Długość</string>
+    <string name="location.locationName">Nazwa</string>
+    <string name="location.Temperature">Temperatura</string>
+    <string name="location.Pressure">Ciśnienie</string>
+    <string name="location.Description">Opis</string>
+
+    <string name="wind.Wind">Wiatr</string>
+    <string name="wind.Force">Siła</string>
+    <string name="wind.Direction">Kierunek</string>
+    <string name="wind.Other">Inne Dane</string>
+    <string name="wind.Humidity">Wilgotność</string>
+    <string name="wind.Visibility">Widoczność</string>
+
+    <string name="settings.getLatitude">Szerokość geograficzna</string>
+    <string name="settings.getLongitude">Długość geograficzna</string>
+    <string name="settings.refreshing">Odświeżanie (w sekundach)</string>
+    <string name="settings.dataRefreshing">Odświeżanie (w minutach)</string>
+    <string name="settings.save">Zapisz</string>
+    <string name="settings.refresh">Odśwież</string>
+    <string name="settings.destroy">Przywróć Ustawienia Fabryczne</string>
+
+    <string name="settings.astroTitle">Ustawienia dla Słońca i Księżyca</string>
+    <string name="settings.weatherTitle">Ustawienia Lokacji</string>
+    <string name="settings.dataTitle">Odświeżanie Danych</string>
+
+    <string name="settings.cityName">Wybrane miasto</string>
+    <string name="settings.cityLocation">Geolokalizacja</string>
+    <string name="settings.unitType">Typ jednostek</string>
+    <string name="settings.newLocation">Dodaj lokację</string>
+    <string name="settings.allLocations">Lista lokacji</string>
+
+    <string name="weatherFile">weather.bin</string>
+    <string name="locationsFile">locations.bin</string>
+
+    <string-array name="unitList">
+        <item>Metryczny</item>
+        <item>Imperialny</item>
+    </string-array>
+</resources>

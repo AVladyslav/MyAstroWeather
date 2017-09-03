@@ -1,0 +1,133 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="layout.sun">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView24"
+        android:layout_marginStart="12dp"
+        android:text="Sunrise"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time:"
+        android:textSize="24sp"
+        android:paddingBottom="15dp"
+        android:layout_above="@+id/sunrise_time"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Azimuth:"
+        android:textSize="24sp"
+        android:layout_alignBaseline="@+id/textView11"
+        android:layout_alignBottom="@+id/textView11"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunset"
+        android:textSize="24sp"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_below="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Civil dawn"
+        android:textSize="24sp"
+        android:layout_alignStart="@+id/textView13"
+        android:layout_below="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Civil dusk"
+        android:textSize="24sp"
+        android:layout_alignStart="@+id/textView14"
+        android:layout_below="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/sunrise_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/textView10"
+        android:layout_alignStart="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/sunset_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_above="@+id/textView14"
+        android:layout_alignStart="@+id/sunrise_time" />
+
+    <TextView
+        android:id="@+id/civil_dawn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/textView14"
+        android:layout_alignStart="@+id/sunset_time" />
+
+    <TextView
+        android:id="@+id/civil_dusk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/textView15"
+        android:layout_alignStart="@+id/civil_dawn" />
+
+    <TextView
+        android:id="@+id/sunrise_azimuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/sunrise_time"
+        android:layout_alignBottom="@+id/sunrise_time"
+        android:layout_alignStart="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/sunset_azimuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/sunset_time"
+        android:layout_alignBottom="@+id/sunset_time"
+        android:layout_alignStart="@+id/sunrise_azimuth" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUN"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

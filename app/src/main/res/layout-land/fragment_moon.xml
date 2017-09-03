@@ -1,0 +1,136 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="layout.moon">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="16dp"
+        android:text="MOON"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView18"
+        android:layout_below="@+id/textView18"
+        android:layout_marginTop="8dp"
+        android:text="Moonrise"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView19"
+        android:layout_below="@+id/textView19"
+        android:layout_marginTop="8dp"
+        android:text="Moonset"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New moon"
+        android:textSize="24sp"
+        android:layout_alignBottom="@+id/moonrise"
+        android:layout_alignStart="@+id/textView25" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView20"
+        android:layout_below="@+id/textView23"
+        android:layout_marginTop="8dp"
+        android:text="Full moon"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moon phase"
+        android:textSize="24sp"
+        android:layout_alignBottom="@+id/moonset"
+        android:layout_alignStart="@+id/textView25" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Synodic period"
+        android:textSize="24sp"
+        android:layout_marginEnd="34dp"
+        android:layout_alignBottom="@+id/full_moon"
+        android:layout_toStartOf="@+id/synodic_period" />
+
+    <TextView
+        android:id="@+id/moonrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/textView19"
+        android:layout_alignBottom="@+id/textView19"
+        android:layout_alignStart="@+id/moonset" />
+
+    <TextView
+        android:id="@+id/moonset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/textView20"
+        android:layout_alignStart="@+id/full_moon" />
+
+    <TextView
+        android:id="@+id/new_moon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/textView21"
+        android:layout_alignBottom="@+id/textView21"
+        android:layout_alignStart="@+id/moon_phase" />
+
+    <TextView
+        android:id="@+id/full_moon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_marginStart="29dp"
+        android:layout_alignBottom="@+id/textView22"
+        android:layout_toEndOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/moon_phase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_marginEnd="56dp"
+        android:layout_alignBottom="@+id/textView23"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/synodic_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/textView25"
+        android:layout_alignStart="@+id/moon_phase" />
+</RelativeLayout>
