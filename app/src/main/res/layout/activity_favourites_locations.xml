@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/spinner_favourites_locations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="49dp" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="12dp"
+        android:text="Favourites Locations" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:text="City:"
+        android:layout_below="@+id/spinner_favourites_locations"
+        android:layout_alignStart="@+id/textView35" />
+
+    <EditText
+        android:id="@+id/editText_find_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView39"
+        android:layout_marginTop="11dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <Button
+        android:id="@+id/button_find_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView39"
+        android:layout_below="@+id/editText_find_location"
+        android:layout_marginTop="23dp"
+        android:text="Find" />
+
+    <Spinner
+        android:id="@+id/spinner_founded_locations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_find_location"
+        android:layout_marginTop="35dp" />
+
+    <Button
+        android:id="@+id/button_add_to_favourites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/button_find_location"
+        android:layout_below="@+id/spinner_founded_locations"
+        android:layout_marginTop="49dp"
+        android:text="Add to favourites" />
+
+    <Button
+        android:id="@+id/button_remove_from_favourites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/button_add_to_favourites"
+        android:layout_below="@+id/button_add_to_favourites"
+        android:layout_marginTop="29dp"
+        android:text="Remove from favourites" />
+</RelativeLayout>
