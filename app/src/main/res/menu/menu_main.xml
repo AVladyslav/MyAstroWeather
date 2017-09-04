@@ -2,18 +2,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.anamariapaula.MyAstroWeather.MainActivity" >
-    <item android:id="@+id/action_localization"
-        android:title="Change localization"
+    <item
+        android:id="@+id/action_refresh_weather"
         android:orderInCategory="100"
+        android:title="Refresh Weather Info" />
+    <item
+        android:id="@+id/action_locations"
+        android:orderInCategory="101"
+        android:title="Locations" />
+    <item
+        android:id="@+id/action_location"
+        android:orderInCategory="104"
+        android:title="Change location"
         app:showAsAction="never" />
 
     <item android:id="@+id/action_frequency"
         android:title="Change frequency"
-        android:orderInCategory="100"
+        android:orderInCategory="104"
         app:showAsAction="never" />
 
     <item android:id="@+id/action_exit"
         android:title="Exit"
-        android:orderInCategory="100"
+        android:orderInCategory="104"
         app:showAsAction="never" />
 </menu>

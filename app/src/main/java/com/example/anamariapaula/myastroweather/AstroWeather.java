@@ -328,7 +328,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     public boolean onOptionsItemSelected(MenuItem item) {
         cTimer.cancel();
         rTimer.cancel();
-        if(item.getItemId() == R.id.action_localization) {
+        if(item.getItemId() == R.id.action_location) {
             Intent intent = new Intent(AstroWeather.this, MainActivity.class);
             intent.putExtra("longitude", Double.toString(longitude));
             intent.putExtra("latitude", Double.toString(latitude));
@@ -344,6 +344,8 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
             startActivity(intent);
         } else if(item.getItemId() == R.id.action_exit) {
             finishAffinity();
+        } else if (item.getItemId() == R.id.action_locations) {
+
         }
 
         return super.onOptionsItemSelected(item);
