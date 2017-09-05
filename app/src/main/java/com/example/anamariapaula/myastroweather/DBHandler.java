@@ -37,7 +37,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LOCATIONS_TABLE = "CREATE TABLE " + TABLE_LOCATIONS + "("
+        String CREATE_LOCATIONS_TABLE = "CREATE TABLE IF NOT EXISTS" + TABLE_LOCATIONS + "("
         + KEY_ID + " INTEGER PRIMARY KEY," + KEY_COUNTRY + " TEXT," + KEY_ADMIN1 + " TEXT," + KEY_ADMIN2 + " TEXT,"
         + KEY_ADMIN3 + " TEXT," + KEY_LOCALITY1 + " TEXT," + KEY_LOCALITY2 + " TEXT," + KEY_WOEID + " TEXT" + ")";
         db.execSQL(CREATE_LOCATIONS_TABLE);

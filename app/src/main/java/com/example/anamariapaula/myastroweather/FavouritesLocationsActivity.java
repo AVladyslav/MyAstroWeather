@@ -22,6 +22,8 @@ public class FavouritesLocationsActivity extends AppCompatActivity {
 
     ArrayList<Location> favouritesLocations;
 
+    DBHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -33,6 +35,9 @@ public class FavouritesLocationsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        db = new DBHandler(this);
+
+        favouritesLocations = (ArrayList<Location>) db.getAllLocations();
         spinner_favourites_locations = (Spinner) findViewById(R.id.spinner_favourites_locations);
         spinner_founded_locations = (Spinner) findViewById(R.id.spinner_founded_locations);
         editText_find_location = (EditText) findViewById(R.id.editText_find_location);
