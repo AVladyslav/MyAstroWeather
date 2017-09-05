@@ -47,6 +47,7 @@
         android:layout_alignStart="@+id/textView39"
         android:layout_below="@+id/editText_find_location"
         android:layout_marginTop="23dp"
+        android:onClick="onButtonClick_find_location"
         android:text="Find" />
 
     <Spinner
@@ -63,7 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/button_find_location"
         android:layout_below="@+id/spinner_founded_locations"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="51dp"
+        android:onClick="onButtonClick_add_to_favourites"
         android:text="Add to favourites" />
 
     <Button
@@ -73,5 +75,6 @@
         android:layout_alignStart="@+id/button_add_to_favourites"
         android:layout_below="@+id/button_add_to_favourites"
         android:layout_marginTop="29dp"
+        android:onClick="onButtonClick_remove_from_favourites"
         android:text="Remove from favourites" />
 </RelativeLayout>

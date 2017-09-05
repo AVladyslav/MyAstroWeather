@@ -1,47 +1,51 @@
 package com.example.anamariapaula.myastroweather;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 
-/**
- * Created by Visual on 05.09.2017.
- */
-
-public class GetJSONObject {
-    public static JSONObject getJSONfromURL(String urlString){
+public class GetJSONObject extends AsyncTask<String, Void, JSONObject> {
+    private JSONObject getJSONfromURL(String urlString){
         URL url;
-        InputStream is = null;
+        InputStream inputStream;
         String result = "";
         JSONObject jArray = null;
-        URLConnection con;
+        URLConnection con = null;
 
         // Download JSON data from URL
         try{
             url = new URL(urlString);
             con = url.openConnection();
+            con.setDoInput(true);
+            con.connect();
         }catch(Exception e){
             Log.e("log_tag", "Error in http connection "+e.toString());
         }
 
         // Convert response to string
         try{
-            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            //reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+            inputStream = con.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
-            is.close();
+            inputStream.close();
             result=sb.toString();
         }catch(Exception e){
             Log.e("log_tag", "Error converting result "+e.toString());
@@ -55,5 +59,10 @@ public class GetJSONObject {
         }
 
         return jArray;
+    }
+
+    @Override
+    protected JSONObject doInBackground(String... params) {
+        return getJSONfromURL(params[0]);
     }
 }

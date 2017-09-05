@@ -345,7 +345,8 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
         } else if(item.getItemId() == R.id.action_exit) {
             finishAffinity();
         } else if (item.getItemId() == R.id.action_locations) {
-
+            Intent intent = new Intent(AstroWeather.this, FavouritesLocationsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

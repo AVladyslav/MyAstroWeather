@@ -1,9 +1,5 @@
 package com.example.anamariapaula.myastroweather;
 
-/**
- * Created by Visual on 04.09.2017.
- */
-
 public class Location {
     private int id;
     private String Country;
@@ -15,6 +11,15 @@ public class Location {
     private int WOEID;
 
     public Location() {
+    }
+
+    public Location(int noParameterRequired){
+        Country = null;
+        Admin1 = null;
+        Admin2 = null;
+        Admin3 = null;
+        Locality1 = null;
+        Locality2 = null;
     }
 
     public Location(int id, String country, String admin1, String admin2, String admin3, String locality1, String locality2, int WOEID) {
@@ -91,4 +96,5 @@ public class Location {
     public void setWOEID(int WOEID) {
         this.WOEID = WOEID;
     }
+
 }

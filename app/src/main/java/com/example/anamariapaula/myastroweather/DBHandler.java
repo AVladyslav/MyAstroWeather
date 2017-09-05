@@ -9,16 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Visual on 04.09.2017.
- */
 
 public class DBHandler extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "locationsInfo";
+    private static final String DATABASE_NAME = "locationsInfo.db";
     // Contacts table name
     private static final String TABLE_LOCATIONS = "locations";
     // Locations Table Columns names
@@ -37,7 +34,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LOCATIONS_TABLE = "CREATE TABLE IF NOT EXISTS" + TABLE_LOCATIONS + "("
+        String CREATE_LOCATIONS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_LOCATIONS + "("
         + KEY_ID + " INTEGER PRIMARY KEY," + KEY_COUNTRY + " TEXT," + KEY_ADMIN1 + " TEXT," + KEY_ADMIN2 + " TEXT,"
         + KEY_ADMIN3 + " TEXT," + KEY_LOCALITY1 + " TEXT," + KEY_LOCALITY2 + " TEXT," + KEY_WOEID + " TEXT" + ")";
         db.execSQL(CREATE_LOCATIONS_TABLE);
@@ -77,12 +74,13 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         Location location = new Location(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), Integer.parseInt(cursor.getString(7)));
+        cursor.close();
         // return location
         return location;
     }
 
     public List<Location> getAllLocations() {
-        List<Location> locationList = new ArrayList<Location>();
+        List<Location> locationList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_LOCATIONS;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -103,6 +101,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 locationList.add(location);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         // return contact list
         return locationList;
     }
