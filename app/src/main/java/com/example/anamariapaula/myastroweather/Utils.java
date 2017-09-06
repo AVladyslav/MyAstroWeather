@@ -24,10 +24,11 @@ public class Utils {
     {
         new AlertDialog.Builder(context)
                 .setTitle("Offline")
-                .setMessage("No internet connection!")
+                .setMessage("No available internet connection!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "Can not update data.", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();

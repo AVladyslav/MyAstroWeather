@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +47,8 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     private int hoursFrequency;
     private int lastRefreshedMinutes = 0;
     private int lastRefreshedHours = 0;
+
+    boolean isAvailableInternetConnection;
 
     Timer rTimer;
     Timer cTimer;
@@ -66,6 +69,11 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     Additional_information fourthFragment;
     Weather_forecast fifthFragment;
 
+    ArrayList<com.example.anamariapaula.myastroweather.Location> allLocations = new ArrayList<>();
+    com.example.anamariapaula.myastroweather.Location currentLocation = new com.example.anamariapaula.myastroweather.Location();
+    boolean isFirstLocation = true;
+    DBHandler dbHandler;
+
     long currTime = System.currentTimeMillis();
     long updateTimeFromFile = 0;
     float refresh = 15f;
@@ -73,7 +81,11 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isAvailableInternetConnection = Utils.isOnline(this);
+        dbHandler = new DBHandler(this);
+
         setContentView(R.layout.activity_astro_weather);
+
 
         try {
             File file = getBaseContext().getFileStreamPath("updateTime");
@@ -115,12 +127,12 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
             toast.setGravity(Gravity.BOTTOM|Gravity.CENTER,0,0);
             toast.show();
         }
-        else {
+        /*else {
             //internetConnection = false;
             Toast toast = Toast.makeText(getApplicationContext(),"Brak połączenia z internetem. Dane mogą być nieaktualne.", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.BOTTOM|Gravity.CENTER,0,0);
             toast.show();
-        }
+        }*/
 
         bundle = getIntent().getExtras();
         longitude = Double.parseDouble(bundle.getString("longitude"));
@@ -212,21 +224,15 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
         Log.d("XXXXXXXXXXXXXX", "TIME:" + String.valueOf(time));
         //sprawdzenie dostępu do internetu
 
-        if(isConnected()) {
+        if(isAvailableInternetConnection) {
             new SaveDataAsyncTask(this).execute();
-        }
-
-        else {
-            //internetConnection = false;
-            Toast toast = Toast.makeText(getApplicationContext(),"Brak połączenia z internetem. Dane mogą być nieaktualne.", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.BOTTOM|Gravity.CENTER,0,0);
-            toast.show();
         }
 
         SharedPreferences sharedpreferences = getSharedPreferences("ShPe", Context.MODE_PRIVATE);
         latitude = sharedpreferences.getFloat("szerokosc", 51.766024f);
         longitude = sharedpreferences.getFloat("dlugosc", 19.453807f);
         refresh = sharedpreferences.getFloat("czas", 15.0f);
+        initializeDataForForecast();
         getCurrentTime();
 
     }
@@ -275,7 +281,9 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
                     @Override
                     public void run() {
                         calendar = Calendar.getInstance();
-                        Toast.makeText(getBaseContext(), "Refreshed", Toast.LENGTH_SHORT).show();
+                        if (isAvailableInternetConnection) {
+                            Toast.makeText(getBaseContext(), "Refreshed", Toast.LENGTH_SHORT).show();
+                        }
                         if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
                             pager.setAdapter(adapter);
                         } else {
@@ -408,6 +416,21 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
             return true;
         }
         else return false;
+    }
+
+    private void initializeDataForForecast() {
+        allLocations.clear();
+        if (isFirstLocation) {
+            LocationGetter task = new LocationGetter();
+            com.example.anamariapaula.myastroweather.Location location = task.doInBackground(Double.toString(longitude), Double.toString(latitude));
+            //TODO location is null, check this
+            if (location != null) {
+                currentLocation = location;
+                allLocations.add(currentLocation);
+            }
+        }
+
+        //TODO czy poprawnie działa?
     }
 
     private void initializeWeatherData()
