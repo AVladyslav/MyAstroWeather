@@ -96,7 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 location.setAdmin3(cursor.getString(4));
                 location.setLocality1(cursor.getString(5));
                 location.setLocality2(cursor.getString(6));
-                location.setId(Integer.parseInt(cursor.getString(7)));
+                location.setWOEID(Integer.parseInt(cursor.getString(7)));
                 // Adding contact to list
                 locationList.add(location);
             } while (cursor.moveToNext());
@@ -136,4 +136,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(location.getId()) });
         db.close();
     }
+
+
+    public void resetTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATIONS);
+        onCreate(db);
+    }
+
 }

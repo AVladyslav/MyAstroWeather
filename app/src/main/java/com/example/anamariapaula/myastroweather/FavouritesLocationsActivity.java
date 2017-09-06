@@ -29,9 +29,11 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
 
     ArrayList<Location> favouritesLocations;
     ArrayList<Location> foundedLocations = new ArrayList<>();
+    ArrayList<String> favouritesLocationsStrings = new ArrayList<>();
     ArrayList<String> foundedLocationsStrings = new ArrayList<>();
 
     ArrayAdapter<String> dataAdapterFoundedLocations;
+    ArrayAdapter<String> dataAdapterFavouritesLocations;
 
     DBHandler db;
 
@@ -51,6 +53,8 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
         db = new DBHandler(this);
 
         favouritesLocations = (ArrayList<Location>) db.getAllLocations();
+        favouritesLocationsStrings = locationListToString(favouritesLocations);
+
         spinner_favourites_locations = (Spinner) findViewById(R.id.spinner_favourites_locations);
         spinner_founded_locations = (Spinner) findViewById(R.id.spinner_founded_locations);
         editText_find_location = (EditText) findViewById(R.id.editText_find_location);
@@ -59,15 +63,28 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
         button_remove_from_favourites = (Button) findViewById(R.id.button_remove_from_favourites);
 
         spinner_founded_locations.setOnItemSelectedListener(this);
+        spinner_favourites_locations.setOnItemSelectedListener(this);
         dataAdapterFoundedLocations = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, foundedLocationsStrings);
-
+        dataAdapterFavouritesLocations= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, favouritesLocationsStrings);
         // Drop down layout style - list view with radio button
         dataAdapterFoundedLocations.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapterFavouritesLocations.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
         spinner_founded_locations.setAdapter(dataAdapterFoundedLocations);
+        spinner_favourites_locations.setAdapter(dataAdapterFavouritesLocations);
 
-        //TODO sorawdzenie połączenia z internetem, zablokować przyciski w razie potrzeby
+        if (Utils.isOnline(this)) {
+            button_find_location.setEnabled(true);
+            button_add_to_favourites.setEnabled(true);
+            spinner_founded_locations.setEnabled(true);
+            editText_find_location.setEnabled(true);
+        } else {
+            button_find_location.setEnabled(false);
+            button_add_to_favourites.setEnabled(false);
+            spinner_founded_locations.setEnabled(false);
+            editText_find_location.setEnabled(false);
+        }
     }
 
     void setSpinner_favourites_locations() {
@@ -79,28 +96,30 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
     }
 
     public void onButtonClick_find_location(View v) {
-
+//gj
         dataAdapterFoundedLocations.clear();
         String text = editText_find_location.getEditableText().toString();
-        try {
-            GettingLocationsFromYahoo task = new GettingLocationsFromYahoo();
-            foundedLocations = task.doInBackground(text);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        if (text != null && !text.equalsIgnoreCase("")) {
+            try {
+                GettingLocationsFromYahoo task = new GettingLocationsFromYahoo();
+                foundedLocations = task.doInBackground(text);
+            } catch (Exception e) {
+                Toast.makeText(this.getBaseContext(), "Wrong data entered", Toast.LENGTH_SHORT).show();
+            }
 
-        if (foundedLocations.size() == 0) {
-            Toast.makeText(this.getBaseContext(), "Wrong data entered", Toast.LENGTH_SHORT);
-        } else {
-            foundedLocationsStrings = locationListToString();
-            dataAdapterFoundedLocations.addAll(foundedLocationsStrings);
+            if (foundedLocations.size() == 0) {
+                Toast.makeText(this.getBaseContext(), "Wrong data entered", Toast.LENGTH_SHORT).show();
+            } else {
+                foundedLocationsStrings = locationListToString(foundedLocations);
+                dataAdapterFoundedLocations.addAll(foundedLocationsStrings);
+            }
         }
 //        spinner_founded_locations.setAdapter(dataAdapterFoundedLocations);
     }
 
-    private ArrayList<String> locationListToString() {
+    private ArrayList<String> locationListToString(ArrayList<Location> locationsList) {
         ArrayList<String> out = new ArrayList<>();
-        for (Location l : foundedLocations) {
+        for (Location l : locationsList) {
             StringBuilder sb = new StringBuilder();
             if (l.getLocality2() != null) {
                 sb.append(l.getLocality2() + ", ");
@@ -123,11 +142,40 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
     }
 
     public void onButtonClick_add_to_favourites(View v) {
-        //TODO dokończyć
+        if (foundedLocations.size() > 0) {
+            Location location = foundedLocations.get(spinner_founded_locations.getSelectedItemPosition());
+            if (favouritesLocations!=null && favouritesLocations.size()>0) {
+                for (Location l : favouritesLocations) {
+                    if (l.getWOEID() == location.getWOEID()) {
+                        return;
+                    }
+                }
+            }
+            db.addLocation(location);
+            favouritesLocations = (ArrayList<Location>) db.getAllLocations();
+            favouritesLocationsStrings = locationListToString(favouritesLocations);
+            dataAdapterFavouritesLocations.clear();
+            dataAdapterFavouritesLocations.addAll(favouritesLocationsStrings);
+        }
     }
 
     public void onButtonClick_remove_from_favourites(View v) {
-        //TODO dokończyć
+        if (favouritesLocations.size() > 0) {
+            Location location = favouritesLocations.get(spinner_favourites_locations.getSelectedItemPosition());
+           // db.deleteLocation(location);
+
+            db.deleteLocation(location);
+
+            favouritesLocations = (ArrayList<Location>) db.getAllLocations();
+            favouritesLocationsStrings = locationListToString(favouritesLocations);
+            if (favouritesLocationsStrings.size() == 0) {
+                db.resetTable();
+                dataAdapterFavouritesLocations.clear();
+            } else {
+                dataAdapterFavouritesLocations.clear();
+                dataAdapterFavouritesLocations.addAll(favouritesLocationsStrings);
+            }
+        }
     }
 
     @Override
