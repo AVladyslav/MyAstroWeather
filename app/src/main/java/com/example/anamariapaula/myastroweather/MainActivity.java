@@ -23,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
     EditText longitude_text;
     EditText latitude_text;
 
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         bundle = getIntent().getExtras();
+
 
 
         super.onCreate(savedInstanceState);
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        internetConnectionInfo();
     }
 
     @Override
@@ -64,12 +67,15 @@ public class MainActivity extends AppCompatActivity {
         if(longitude_text.getText().toString().equals("") || latitude_text.getText().toString().equals("")) {
             Toast.makeText(getBaseContext(), "Enter values" , Toast.LENGTH_SHORT ).show();
         } else {
-            SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
 
-            LocationGetter task = new LocationGetter();
-            com.example.anamariapaula.myastroweather.Location location = task.doInBackground(latitude_text.getText().toString(), longitude_text.getText().toString());
-            editor.putInt("woeid", location.getWOEID());
-            editor.apply();
+            editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+
+            if (Utils.isOnline(this)) {
+                LocationGetter task = new LocationGetter();
+                com.example.anamariapaula.myastroweather.Location location = task.doInBackground(latitude_text.getText().toString(), longitude_text.getText().toString());
+                editor.putInt("woeid", location.getWOEID());
+                editor.apply();
+            }
 
             Intent intent = new Intent(MainActivity.this, AstroWeather.class);
             intent.putExtra("longitude", longitude_text.getText().toString());

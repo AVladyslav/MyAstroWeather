@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +85,7 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
 
         });
         spinner_founded_locations.setOnItemSelectedListener(this);
-        spinner_favourites_locations.setOnItemSelectedListener(this);
+//        spinner_favourites_locations.setOnItemSelectedListener(this);
         dataAdapterFoundedLocations = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, foundedLocationsStrings);
         dataAdapterFavouritesLocations= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, favouritesLocationsStrings);
         // Drop down layout style - list view with radio button
@@ -200,7 +202,7 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        Log.e("position", Integer.toString(position));
     }
 
     @Override

@@ -50,11 +50,17 @@ public class FragmentWeatherForecast extends Fragment {
 
         AstroWeather astro_weather_activity = (AstroWeather) getActivity();
 
-        weatherForecasts = astro_weather_activity.weatherInformation.getWeatherForecast();
 
         getAllView(view);
 
-        setAllText(astro_weather_activity);
+
+        try {
+            weatherForecasts = astro_weather_activity.weatherInformation.getWeatherForecast();
+            if (weatherForecasts == null) {
+
+                setAllText(astro_weather_activity);
+            }
+        } catch (Exception e) {}
 
         return view;
     }

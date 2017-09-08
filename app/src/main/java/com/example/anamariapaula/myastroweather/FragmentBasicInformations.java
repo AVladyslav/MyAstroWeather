@@ -43,11 +43,13 @@ public class FragmentBasicInformations extends Fragment {
 
         AstroWeather astro_weather_activity = (AstroWeather) getActivity();
 
-        basicWeatherInformation = astro_weather_activity.weatherInformation.getBasicWeatherInformation();
         getAllView(view);
-
-        setAllText(astro_weather_activity);
-
+        try {
+            basicWeatherInformation = astro_weather_activity.weatherInformation.getBasicWeatherInformation();
+            if (basicWeatherInformation != null) {
+                setAllText(astro_weather_activity);
+            }
+        } catch (Exception e){}
         return view;
     }
 
