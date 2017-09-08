@@ -2,6 +2,7 @@ package com.example.anamariapaula.myastroweather;
 
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +29,7 @@ public class LocationGetter extends AsyncTask<String, Void, Location> {
     }
 
     private JSONObject getJsonFromGeo(String lat, String lon) {
-        String query = "https://query.yahooapis.com/v1/public/yql?q=SELECT%20woeid%20FROM%20geo.places%20WHERE%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22(" + lat + "%20%2C" + lon + ")%22)%20&format=json&diagnostics=true&callback=";
+        String query = "https://query.yahooapis.com/v1/public/yql?q=select%20woeid%20FROM%20geo.places%20WHERE%20woeid%20in%20(SELECT%20woeid%20from%20geo.places%20WHERE%20text%3D%22(" + lat + "%20%2C" + lon + ")%22)&format=json";
         GetJSONObject task = new GetJSONObject();
         task.execute(query);
 
@@ -45,9 +46,11 @@ public class LocationGetter extends AsyncTask<String, Void, Location> {
     private int getWOEIDFromJson(JSONObject json) {
         int out = -1;
 
-        JSONObject jsonResults = null;
+        JSONObject jsonQuery;
+        JSONObject jsonResults;
         try {
-            jsonResults = json.getJSONObject("results");
+            jsonQuery = json.getJSONObject("query");
+            jsonResults = jsonQuery.getJSONObject("results");
             //TODO źle sę dzieje
             JSONObject place = jsonResults.getJSONObject("place");
             out = Integer.parseInt(place.getString("woeid"));

@@ -1,6 +1,7 @@
 package com.example.anamariapaula.myastroweather;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String PREFS_NAME = "mySharedPreferences";
     Bundle bundle;
     String longitude;
     String latitude;
@@ -62,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
         if(longitude_text.getText().toString().equals("") || latitude_text.getText().toString().equals("")) {
             Toast.makeText(getBaseContext(), "Enter values" , Toast.LENGTH_SHORT ).show();
         } else {
+            SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+
+            LocationGetter task = new LocationGetter();
+            com.example.anamariapaula.myastroweather.Location location = task.doInBackground(latitude_text.getText().toString(), longitude_text.getText().toString());
+            editor.putInt("woeid", location.getWOEID());
+            editor.apply();
 
             Intent intent = new Intent(MainActivity.this, AstroWeather.class);
             intent.putExtra("longitude", longitude_text.getText().toString());
@@ -70,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("updateTimeHours", updateTimeHours);
             startActivity(intent);
             Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void internetConnectionInfo() {
+        if (!Utils.isOnline(this)) {
+            Utils.noInternetConnectionInfo(this);
         }
     }
 }

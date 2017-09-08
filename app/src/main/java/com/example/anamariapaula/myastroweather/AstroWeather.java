@@ -22,13 +22,14 @@ import android.widget.Toast;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,10 +70,9 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     Additional_information fourthFragment;
     Weather_forecast fifthFragment;
 
-    ArrayList<com.example.anamariapaula.myastroweather.Location> allLocations = new ArrayList<>();
-    com.example.anamariapaula.myastroweather.Location currentLocation = new com.example.anamariapaula.myastroweather.Location();
-    boolean isFirstLocation = true;
     DBHandler dbHandler;
+    SharedPreferences prefs;
+    private final String PREFS_NAME = "mySharedPreferences";
 
     long currTime = System.currentTimeMillis();
     long updateTimeFromFile = 0;
@@ -81,6 +81,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         isAvailableInternetConnection = Utils.isOnline(this);
         dbHandler = new DBHandler(this);
 
@@ -229,8 +230,6 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
         }
 
         SharedPreferences sharedpreferences = getSharedPreferences("ShPe", Context.MODE_PRIVATE);
-        latitude = sharedpreferences.getFloat("szerokosc", 51.766024f);
-        longitude = sharedpreferences.getFloat("dlugosc", 19.453807f);
         refresh = sharedpreferences.getFloat("czas", 15.0f);
         initializeDataForForecast();
         getCurrentTime();
@@ -355,6 +354,13 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
         } else if (item.getItemId() == R.id.action_locations) {
             Intent intent = new Intent(AstroWeather.this, FavouritesLocationsActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.action_refresh_weather) {
+            if (Utils.isOnline(this)) {
+                onlineInitialize();
+                Toast.makeText(this, "Weather refreshed.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "No internet connection.", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -419,18 +425,32 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     }
 
     private void initializeDataForForecast() {
-        allLocations.clear();
-        if (isFirstLocation) {
-            LocationGetter task = new LocationGetter();
-            com.example.anamariapaula.myastroweather.Location location = task.doInBackground(Double.toString(longitude), Double.toString(latitude));
-            //TODO location is null, check this
-            if (location != null) {
-                currentLocation = location;
-                allLocations.add(currentLocation);
-            }
+        //TODO przy braku połączenia robi się bzdura
+        if (Utils.isOnline(this)) { //Online
+            onlineInitialize();
+        } else {    //Offline
+            offlineInitialize();
         }
+        //TODO Tutaj skończyłem, kontynuować odtąd
+    }
 
-        //TODO czy poprawnie działa?
+    private void onlineInitialize() {
+        JSONObject jsonObject = Utils.getJsonFromWOEID(prefs.getInt("woeid", 0), prefs.getBoolean("metrics", true));
+        Utils.writeJSONObjectToFile(this, jsonObject, prefs.getInt("woeid", 0));
+        JSONObject jsonObject1 = Utils.getJsonFromFile(this, prefs.getInt("woeid", 0));
+
+        int i = 2 - 1;
+        //TODO
+    }
+
+    private void offlineInitialize() {
+        if (Utils.isDataFileExists(Integer.toString(prefs.getInt("woeid", 0)))) {   //Czy istnieje plik z danymi
+            if (Utils.isNeedToBeRefreshed(this, Integer.toString(prefs.getInt("woeid", 0)))) {
+                Utils.readAllData(); //TODO DOKOŃCZYĆ !!!!!!!!!!!!!!MOTHERFUCKA!!!!!!!!!!!
+            }
+        } else {
+            Toast.makeText( this.getApplicationContext(), "No available internete connection. No data to be displayed.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initializeWeatherData()

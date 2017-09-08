@@ -1,5 +1,7 @@
 package com.example.anamariapaula.myastroweather;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ import javax.xml.datatype.Duration;
 
 public class FavouritesLocationsActivity extends AppCompatActivity implements OnItemSelectedListener {
 
+    private static final String PREFS_NAME = "ShPe";
     Spinner spinner_favourites_locations;
     Spinner spinner_founded_locations;
 
@@ -39,6 +42,8 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
 
     GettingLocationsFromYahoo gettingLocationsFromYahoo = new GettingLocationsFromYahoo();
 
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,6 +55,7 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
     protected void onResume() {
         super.onResume();
 
+        editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
         db = new DBHandler(this);
 
         favouritesLocations = (ArrayList<Location>) db.getAllLocations();
@@ -62,6 +68,20 @@ public class FavouritesLocationsActivity extends AppCompatActivity implements On
         button_add_to_favourites = (Button) findViewById(R.id.button_add_to_favourites);
         button_remove_from_favourites = (Button) findViewById(R.id.button_remove_from_favourites);
 
+        spinner_favourites_locations.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (favouritesLocations.size() > 0) {
+                    editor.putInt("woeid", favouritesLocations.get(spinner_favourites_locations.getSelectedItemPosition()).getWOEID());
+                    editor.apply();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
         spinner_founded_locations.setOnItemSelectedListener(this);
         spinner_favourites_locations.setOnItemSelectedListener(this);
         dataAdapterFoundedLocations = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, foundedLocationsStrings);
