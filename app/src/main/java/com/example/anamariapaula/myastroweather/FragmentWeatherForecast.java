@@ -26,14 +26,12 @@ public class FragmentWeatherForecast extends Fragment {
 
     public static FragmentWeatherForecast newInstance(String text, boolean isNeedToRefresh) {
 
-        if (isNeedToRefresh || instance == null) {
-            instance = new FragmentWeatherForecast();
+        instance = new FragmentWeatherForecast();
 
-            Bundle bundle = new Bundle();
-            bundle.putString("msg", text);
+        Bundle bundle = new Bundle();
+        bundle.putString("msg", text);
 
-            instance.setArguments(bundle);
-        }
+        instance.setArguments(bundle);
         return instance;
     }
 

@@ -146,11 +146,29 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
 
         text_long.setText(Double.toString(longitude));
         text_lat.setText(Double.toString(latitude));
+
+        viewInitialize();
+
+        initializeAllClocks();
+    }
+
+    private void initializeAllClocks() {
+        calendar = Calendar.getInstance();
+        startClock();
+        refreshTimer();
+        current_time = getCurrentTime();
+
+        getSunInfo();
+        lastRefreshedMinutes = calendar.MINUTE;
+        lastRefreshedHours = calendar.HOUR;
+        newRefresh = Calendar.getInstance();
+        newRefresh.add(Calendar.HOUR, hoursFrequency);
+        newRefresh.add(Calendar.MINUTE, minutesFrequency);
+    }
+
+    private void viewInitialize() {
         if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            pager = (ViewPager) findViewById(R.id.view_pager);
-            adapter = new MyAdapter(getSupportFragmentManager());
-            pager.addOnPageChangeListener(this);
-            adapter.setIsNeedToUpdate(true);
+            viewPagerInitialize();
         }
         else {
             if (findViewById(R.id.fragment_container_sun) != null) {
@@ -203,19 +221,13 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
                         .add(R.id.fragment_container_forecast, fifthFragment).commit();
             }
         }
+    }
 
-
-        calendar = Calendar.getInstance();
-        startClock();
-        refreshTimer();
-        current_time = getCurrentTime();
-
-        getSunInfo();
-        lastRefreshedMinutes = calendar.MINUTE;
-        lastRefreshedHours = calendar.HOUR;
-        newRefresh = Calendar.getInstance();
-        newRefresh.add(Calendar.HOUR, hoursFrequency);
-        newRefresh.add(Calendar.MINUTE, minutesFrequency);
+    private void viewPagerInitialize() {
+        pager = (ViewPager) findViewById(R.id.view_pager);
+        adapter = new MyAdapter(getSupportFragmentManager());
+        pager.addOnPageChangeListener(this);
+        adapter.setIsNeedToUpdate(true);
     }
 
     @Override
@@ -232,9 +244,11 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
 
         SharedPreferences sharedpreferences = getSharedPreferences("ShPe", Context.MODE_PRIVATE);
         refresh = sharedpreferences.getFloat("czas", 15.0f);
-        initializeDataForForecast();
         getCurrentTime();
 
+        initializeDataForForecast();
+        viewPagerInitialize();
+        initializeAllClocks();
     }
 
     public AstroDateTime getCurrentTime() {
@@ -426,6 +440,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
     }
 
     private void initializeDataForForecast() {
+        prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         //TODO przy braku połączenia robi się bzdura
         if (Utils.isOnline(this)) { //Online
             onlineInitialize();
@@ -441,23 +456,28 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
         JSONObject jsonObject1 = Utils.getJsonFromFile(this, prefs.getInt("woeid", 0));
 
         weatherInformation = Utils.getAllInformations(jsonObject1);
-        int i = 2 - 1;
-        //TODO
     }
 
     private void offlineInitialize() {
-        if (Utils.isDataFileExists(Integer.toString(prefs.getInt("woeid", 0)))) {   //Czy istnieje plik z danymi
-            if (Utils.isNeedToBeRefreshed(this, Integer.toString(prefs.getInt("woeid", 0)))) {
-                Utils.readAllData(); //TODO DOKOŃCZYĆ !!!!!!!!!!!!!!MOTHERFUCKA!!!!!!!!!!!
-            }
+        if (isDataFileExists()) {   //Czy istnieje plik z danymi
+            /*if (Utils.isNeedToBeRefreshed(this, Integer.toString(prefs.getInt("woeid", 0)))) {
+                Utils.readAllData(); //TODO bez sprawdzania czy dane wymag. aktualizacji
+            }*/
+            Utils.readAllData(); //TODO DOKOŃCZYĆ !!!!!!!!!!!!!!MOTHERFUCKA!!!!!!!!!!!
         } else {
             Toast.makeText( this.getApplicationContext(), "No available internete connection. No data to be displayed.", Toast.LENGTH_LONG).show();
         }
+        JSONObject jsonObject1 = Utils.getJsonFromFile(this, prefs.getInt("woeid", 0));
+        weatherInformation = Utils.getAllInformations(jsonObject1);
     }
 
 //    private WeatherInformation loadAllInfo() {
 //
 //    }
+
+    private boolean isDataFileExists() {
+        return Utils.isDataFileExists(Integer.toString(prefs.getInt("woeid", 0)));
+    }
 
     private void initializeWeatherData()
     {

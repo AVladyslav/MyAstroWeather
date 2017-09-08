@@ -22,7 +22,7 @@ import javax.xml.datatype.Duration;
 
 public class FavouritesLocationsActivity extends AppCompatActivity implements OnItemSelectedListener {
 
-    private static final String PREFS_NAME = "ShPe";
+    private static final String PREFS_NAME = "mySharedPreferences";
     Spinner spinner_favourites_locations;
     Spinner spinner_founded_locations;
 
