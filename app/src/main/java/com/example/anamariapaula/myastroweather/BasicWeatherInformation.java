@@ -11,18 +11,18 @@ public class BasicWeatherInformation {
     String temperatureUnits;
     int pressure;
     String pressureUnits;
-    String currentWeatherInformation;
-    String pictureWeatherCurrentInformation;
+    String conditionInformation;
+    int conditionCode;
 
-    public BasicWeatherInformation(double longitude, double latitude, int temperature, String temperatureUnits, int pressure, String pressureUnits, String currentWeatherInformation, String pictureWeatherCurrentInformation) {
+    public BasicWeatherInformation(double longitude, double latitude, int temperature, String temperatureUnits, int pressure, String pressureUnits, String conditionInformation, String pictureWeatherCurrentInformation, int conditionCode) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.temperature = temperature;
         this.temperatureUnits = temperatureUnits;
         this.pressure = pressure;
         this.pressureUnits = pressureUnits;
-        this.currentWeatherInformation = currentWeatherInformation;
-        this.pictureWeatherCurrentInformation = pictureWeatherCurrentInformation;
+        this.conditionInformation = conditionInformation;
+        this.conditionCode = conditionCode;
     }
 
     public double getLongitude() {
@@ -73,21 +73,19 @@ public class BasicWeatherInformation {
         this.pressureUnits = pressureUnits;
     }
 
-    public String getCurrentWeatherInformation() {
-        return currentWeatherInformation;
+    public String getConditionInformation() {
+        return conditionInformation;
     }
 
-    public void setCurrentWeatherInformation(String currentWeatherInformation) {
-        this.currentWeatherInformation = currentWeatherInformation;
+    public void setConditionInformation(String conditionInformation) {
+        this.conditionInformation = conditionInformation;
     }
 
-    public String getPictureWeatherCurrentInformation() {
-        return pictureWeatherCurrentInformation;
+    public int getConditionCode() {
+        return conditionCode;
     }
 
-    public void setPictureWeatherCurrentInformation(String pictureWeatherCurrentInformation) {
-        this.pictureWeatherCurrentInformation = pictureWeatherCurrentInformation;
+    public void setConditionCode(int conditionCode) {
+        this.conditionCode = conditionCode;
     }
-
-    //TODO dokończyć
 }
