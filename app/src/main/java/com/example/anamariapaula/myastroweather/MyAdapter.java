@@ -13,9 +13,10 @@ public class MyAdapter extends FragmentPagerAdapter {
     private FragmentManager myFragmentManager = null;
     private FragmentSun fgSun = null;
     private FragmentMoon fgMoon = null;
-    private Basic_information fgBasic = null;
-    private Additional_information fgAdditional = null;
-    private Weather_forecast fgForecast = null;
+    private FragmentBasicInformations fgBasic = null;
+    private FragmentAdditionalInformation fgAdditional = null;
+    private FragmentWeatherForecast fgForecast = null;
+
     private boolean sunNeedUpdate = false;
     private boolean moonNeedUpdate = false;
     private boolean basicNeedUpdate = false;
@@ -45,19 +46,19 @@ public class MyAdapter extends FragmentPagerAdapter {
                 }
                 return fgMoon;
             case 2:
-                fgBasic = Basic_information.newInstance("FragmentBasic, Instance 2", basicNeedUpdate);
+                fgBasic = FragmentBasicInformations.newInstance("FragmentBasic, Instance 2", basicNeedUpdate);
                 if(basicNeedUpdate) {
                     basicNeedUpdate = false;
                 }
                 return fgBasic;
             case 3:
-                fgAdditional = Additional_information.newInstance("FragmentAdditional, Instance 3", additionalNeedUpdate);
+                fgAdditional = FragmentAdditionalInformation.newInstance("FragmentAdditional, Instance 3", additionalNeedUpdate);
                 if(additionalNeedUpdate) {
                     additionalNeedUpdate = false;
                 }
                 return fgAdditional;
             case 4:
-                fgForecast = Weather_forecast.newInstance("FragmentForecast, Instance 4", forecastNeedUpdate);
+                fgForecast = FragmentWeatherForecast.newInstance("FragmentForecast, Instance 4", forecastNeedUpdate);
                 if(forecastNeedUpdate) {
                     forecastNeedUpdate = false;
                 }

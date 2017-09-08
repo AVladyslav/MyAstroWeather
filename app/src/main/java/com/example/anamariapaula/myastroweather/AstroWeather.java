@@ -66,13 +66,14 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
 
     FragmentSun firstFragment;
     FragmentMoon secondFragment;
-    Basic_information thirdFragment;
-    Additional_information fourthFragment;
-    Weather_forecast fifthFragment;
+    FragmentBasicInformations thirdFragment;
+    FragmentAdditionalInformation fourthFragment;
+    FragmentWeatherForecast fifthFragment;
 
     DBHandler dbHandler;
     SharedPreferences prefs;
     private final String PREFS_NAME = "mySharedPreferences";
+    WeatherInformation weatherInformation;
 
     long currTime = System.currentTimeMillis();
     long updateTimeFromFile = 0;
@@ -174,7 +175,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
 
             if (findViewById(R.id.fragment_container_basic) != null) {
 
-                thirdFragment = new Basic_information();
+                thirdFragment = new FragmentBasicInformations();
 
                 thirdFragment.setArguments(getIntent().getExtras());
 
@@ -184,7 +185,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
 
             if (findViewById(R.id.fragment_container_additional) != null) {
 
-                fourthFragment = new Additional_information();
+                fourthFragment = new FragmentAdditionalInformation();
 
                 fourthFragment.setArguments(getIntent().getExtras());
 
@@ -194,7 +195,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
 
             if (findViewById(R.id.fragment_container_forecast) != null) {
 
-                fifthFragment = new Weather_forecast();
+                fifthFragment = new FragmentWeatherForecast();
 
                 fifthFragment.setArguments(getIntent().getExtras());
 
@@ -439,6 +440,7 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
         Utils.writeJSONObjectToFile(this, jsonObject, prefs.getInt("woeid", 0));
         JSONObject jsonObject1 = Utils.getJsonFromFile(this, prefs.getInt("woeid", 0));
 
+        weatherInformation = Utils.getAllInformations(jsonObject1);
         int i = 2 - 1;
         //TODO
     }
@@ -452,6 +454,10 @@ public class AstroWeather extends AppCompatActivity  implements ViewPager.OnPage
             Toast.makeText( this.getApplicationContext(), "No available internete connection. No data to be displayed.", Toast.LENGTH_LONG).show();
         }
     }
+
+//    private WeatherInformation loadAllInfo() {
+//
+//    }
 
     private void initializeWeatherData()
     {

@@ -6,13 +6,16 @@ package com.example.anamariapaula.myastroweather;
 
 public class AdditionalWeatherInformation {
 
-    int speedOfWind;
-    String speedUnits;
-    int windDirection;
-    int humidity;
-    float visibility;
+    private int speedOfWind;
+    private String speedUnits;
+    private int windDirection;
+    private int humidity;
+    private double visibility;
 
-    public AdditionalWeatherInformation(int speedOfWind, String speedUnits, int windDirection, int humidity, float visibility) {
+    public AdditionalWeatherInformation() {
+    }
+
+    public AdditionalWeatherInformation(int speedOfWind, String speedUnits, int windDirection, int humidity, double visibility) {
         this.speedOfWind = speedOfWind;
         this.speedUnits = speedUnits;
         this.windDirection = windDirection;
@@ -52,11 +55,11 @@ public class AdditionalWeatherInformation {
         this.humidity = humidity;
     }
 
-    public float getVisibility() {
+    public double getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(float visibility) {
+    public void setVisibility(double visibility) {
         this.visibility = visibility;
     }
 }

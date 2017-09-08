@@ -5,12 +5,15 @@ package com.example.anamariapaula.myastroweather;
  */
 
 public class WeatherForecast {
-    String day;
-    int lowTemperature;
-    int highTemperature;
-    String temperatureUnits;
-    String conditionInformation;
-    int conditionCode;
+    private String day;
+    private int lowTemperature;
+    private int highTemperature;
+    private String temperatureUnits;
+    private String conditionInformation;
+    private int conditionCode;
+
+    public WeatherForecast() {
+    }
 
     public WeatherForecast(String day, int lowTemperature, int highTemperature, String temperatureUnits, String conditionInformation, int conditionCode) {
         this.day = day;

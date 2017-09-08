@@ -5,16 +5,21 @@ package com.example.anamariapaula.myastroweather;
  */
 
 public class BasicWeatherInformation {
-    double longitude;
-    double latitude;
-    int temperature;
-    String temperatureUnits;
-    int pressure;
-    String pressureUnits;
-    String conditionInformation;
-    int conditionCode;
+    private String place;
+    private double longitude;
+    private double latitude;
+    private int temperature;
+    private String temperatureUnits;
+    private int pressure;
+    private String pressureUnits;
+    private String conditionInformation;
+    private int conditionCode;
 
-    public BasicWeatherInformation(double longitude, double latitude, int temperature, String temperatureUnits, int pressure, String pressureUnits, String conditionInformation, String pictureWeatherCurrentInformation, int conditionCode) {
+    public BasicWeatherInformation() {
+    }
+
+    public BasicWeatherInformation(String place, double longitude, double latitude, int temperature, String temperatureUnits, int pressure, String pressureUnits, String conditionInformation, String pictureWeatherCurrentInformation, int conditionCode) {
+        this.place = place;
         this.longitude = longitude;
         this.latitude = latitude;
         this.temperature = temperature;
@@ -23,6 +28,14 @@ public class BasicWeatherInformation {
         this.pressureUnits = pressureUnits;
         this.conditionInformation = conditionInformation;
         this.conditionCode = conditionCode;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public double getLongitude() {

@@ -15,6 +15,8 @@ import com.astrocalculator.AstroDateTime;
 import utility.DefaultValue;
 
 public class FragmentBasicInformations extends Fragment {
+    BasicWeatherInformation basicWeatherInformation;
+
     TextView localization_bi = null;
     TextView longitude_bi = null;
     TextView latitude_bi = null;
@@ -29,19 +31,26 @@ public class FragmentBasicInformations extends Fragment {
 
     private static FragmentBasicInformations instance = null;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_moon, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_basic_information, container, false);
 
         AstroWeather astro_weather_activity = (AstroWeather) getActivity();
 
+        basicWeatherInformation = astro_weather_activity.weatherInformation.getBasicWeatherInformation();
         getAllView(view);
 
         setAllText(astro_weather_activity);
 
         return view;
     }
+
 
     private void getAllView(View currentView) {
         localization_bi = (TextView) currentView.findViewById(R.id.localization_bi);
@@ -50,6 +59,7 @@ public class FragmentBasicInformations extends Fragment {
         time_bi = (TextView) currentView.findViewById(R.id.time_bi);
         temperature_bi = (TextView) currentView.findViewById(R.id.temperature_bi);
         pressure_bi = (TextView) currentView.findViewById(R.id.pressure_bi);
+        imageViewWeather = (ImageView) currentView.findViewById(R.id.imageViewWeather);
     }
 
 
@@ -61,13 +71,13 @@ public class FragmentBasicInformations extends Fragment {
 
 //        time_bi.setText(getFullMoonInfo(calculator));
 
-        localization_bi.setText("" + DefaultValue.weather.getLocationData().getCity().toString() + ", " + DefaultValue.weather.getLocationData().getCountry().toString());
-        longitude_bi.setText("" + DefaultValue.weather.getLocationData().getLongitude().toString());
-        latitude_bi.setText("" + DefaultValue.weather.getLocationData().getLatitude().toString());
-        temperature_bi.setText("" + DefaultValue.weather.getActualWeather().getTemperature().toString() + DefaultValue.weather.getUnit().getTemperature().toString());
-        pressure_bi.setText("" + DefaultValue.weather.getActualWeather().getPressure().toString() + DefaultValue.weather.getUnit().getPressure().toString());
+        localization_bi.setText(basicWeatherInformation.getPlace());
+        longitude_bi.setText(Double.toString(basicWeatherInformation.getLongitude()));
+        latitude_bi.setText(Double.toString(basicWeatherInformation.getLatitude()));
+        temperature_bi.setText(Integer.toString(basicWeatherInformation.getTemperature()));
+        pressure_bi.setText(Integer.toString(basicWeatherInformation.getPressure()) + " " + basicWeatherInformation.getPressureUnits());
 //        locationDescription.setText("" + DefaultValue.weather.getActualWeather().getDescription().toString());
-        imageViewWeather.setImageResource(ImageChooser.getImage(DefaultValue.weather.getActualWeather().getImageCode().toString()));
+        imageViewWeather.setImageResource(ImageChooser.getImage(Integer.toString(basicWeatherInformation.getConditionCode())));
 
     }
 
@@ -82,47 +92,5 @@ public class FragmentBasicInformations extends Fragment {
             instance.setArguments(bundle);
         }
         return instance;
-    }
-
-    private String getMoonriseInfo(AstroCalculator calculator) {
-        String info;
-        AstroDateTime moonrise_t = calculator.getMoonInfo().getMoonrise();
-        info = Integer.toString(moonrise_t.getHour()) + ':' + Integer.toString(moonrise_t.getMinute()) + ':' + Integer.toString(moonrise_t.getSecond());
-        return info;
-    }
-
-    private String getMoonsetInfo(AstroCalculator calculator) {
-        String info;
-        AstroDateTime moonset_t = calculator.getMoonInfo().getMoonset();
-        info = Integer.toString(moonset_t.getHour()) + ':' + Integer.toString(moonset_t.getMinute()) + ':' + Integer.toString(moonset_t.getSecond());
-        return info;
-    }
-
-    private String getNewMoonInfo(AstroCalculator calculator) {
-        String info;
-        AstroDateTime new_moon_t = calculator.getMoonInfo().getNextNewMoon();
-        info = Integer.toString(new_moon_t.getDay()) + '-' + Integer.toString(new_moon_t.getMonth()) + '-' + Integer.toString(new_moon_t.getYear());
-        return info;
-    }
-
-    private String getFullMoonInfo(AstroCalculator calculator) {
-        String info;
-        AstroDateTime full_moon_t = calculator.getMoonInfo().getNextFullMoon();
-        info = Integer.toString(full_moon_t.getDay()) + '-' + Integer.toString(full_moon_t.getMonth()) + '-' + Integer.toString(full_moon_t.getYear());
-        return info;
-    }
-
-    private String getMoonPhaseInfo(AstroCalculator calculator) {
-        String info;
-        double moon_phase_t = calculator.getMoonInfo().getIllumination() * 100;
-        info = String.format("%.2f%%", moon_phase_t);
-        return info;
-    }
-
-    private String getSynodicPeriodInfo(AstroCalculator calculator) {
-        String info;
-        double synodic_period_t = calculator.getMoonInfo().getAge();
-        info = String.format("%.0f", synodic_period_t);
-        return info;
     }
 }

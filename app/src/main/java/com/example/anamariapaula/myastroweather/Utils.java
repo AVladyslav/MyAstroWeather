@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -87,6 +89,7 @@ public class Utils {
         return f.canRead();
     }
 
+    //TODO sprawdzić, czy działa i jak!
     public static boolean isNeedToBeRefreshed(Context context, String filename) {
         boolean isNeed = true;
         String info = readInfoFromFile(context, filename);
@@ -146,5 +149,79 @@ public class Utils {
     public static JSONObject getJsonFromFile(final Context context, int woeid) {
         return getJSONObjectFromString(readInfoFromFile(context, Integer.toString(woeid)));
     //TODO dokończyć
+    }
+
+    public static WeatherInformation getAllInformations(JSONObject jsonObject) {
+        WeatherInformation weatherInformation = new WeatherInformation();
+        JSONObject channel = null;
+        try {
+            channel = jsonObject.getJSONObject("query").getJSONObject("results").getJSONObject("channel");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        weatherInformation.setBasicWeatherInformation(getBasicInformation(channel));
+        weatherInformation.setAdditionalWeatherInformation(getAdditionalInformation(channel));
+        weatherInformation.setWeatherForecast(getWeatherForecast(channel));
+
+        return weatherInformation;
+    }
+
+    private static ArrayList<WeatherForecast> getWeatherForecast(JSONObject channel) {
+        ArrayList<WeatherForecast> out = new ArrayList<>();
+        try {
+            JSONArray jsonArray = channel.getJSONObject("item").getJSONArray("forecast");
+            for (int i=0; i<jsonArray.length(); i++) {
+                WeatherForecast forecast = new WeatherForecast();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                forecast.setConditionCode(jsonObject.getInt("code"));
+                forecast.setTemperatureUnits(channel.getJSONObject("units").getString("temperature"));
+                forecast.setConditionInformation(jsonObject.getString("text"));
+                forecast.setDay(jsonObject.getString("day"));
+                forecast.setHighTemperature(jsonObject.getInt("high"));
+                forecast.setLowTemperature(jsonObject.getInt("low"));
+
+                out.add(forecast);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    private static BasicWeatherInformation getBasicInformation(JSONObject channel) {
+        BasicWeatherInformation out = new BasicWeatherInformation();
+
+        try {
+            out.setPressureUnits(channel.getJSONObject("units").getString("pressure"));
+            out.setTemperatureUnits(channel.getJSONObject("units").getString("temperature"));
+            out.setPressure(channel.getJSONObject("atmosphere").getInt("pressure"));
+            out.setConditionCode((channel.getJSONObject("item").getJSONObject("condition")).getInt("code"));
+            out.setConditionInformation(channel.getJSONObject("item").getJSONObject("condition").getString("text"));
+            out.setLatitude(channel.getJSONObject("item").getInt("lat"));
+            out.setLongitude(channel.getJSONObject("item").getInt("long"));
+            out.setTemperature((channel.getJSONObject("item").getJSONObject("condition")).getInt("temp"));
+            out.setPlace(channel.getString("title").substring(17));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
+
+    private static AdditionalWeatherInformation getAdditionalInformation(JSONObject channel) {
+        AdditionalWeatherInformation out = new AdditionalWeatherInformation();
+
+        try {
+            out.setHumidity(channel.getJSONObject("atmosphere").getInt("humidity"));
+            out.setSpeedOfWind(channel.getJSONObject("wind").getInt("speed"));
+            out.setSpeedUnits(channel.getJSONObject("units").getString("speed"));
+            out.setVisibility(channel.getJSONObject("atmosphere").getDouble("visibility"));
+            out.setWindDirection(channel.getJSONObject("wind").getInt("direction"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return out;
     }
 }
